@@ -1,4 +1,4 @@
-<input type="text" [(ngModel)]="myAngularxQrCode">
+<input type="text" [(ngModel)]="myAngularxQrCode" placeholder="Texto a codificar">
 
 <qrcode (qrCodeURL)="onChangeURL($event)" [qrdata]="myAngularxQrCode" [width]="256" [errorCorrectionLevel]="'H'">
 </qrcode>

@@ -1,0 +1,30 @@
+/* =============================================
+   APP ROOT — Layout principal
+   ============================================= */
+
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding: 32px 16px 100px;     /* espacio inferior para el botón fijo */
+  gap: 32px;
+  background: var(--fondo-suave);
+}
+
+/* ---------- Header / Branding ---------- */
+:host::before {
+  content: '🏦  Billetera Digital';
+  display: block;
+  width: 100%;
+  max-width: 480px;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--fondo-principal);
+  background: linear-gradient(135deg, var(--azul-noche) 0%, var(--azul-corporativo) 50%, var(--azul-intermedio) 100%);
+  padding: 20px 24px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--sombra-card);
+}

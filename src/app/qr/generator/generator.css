@@ -1,0 +1,95 @@
+/* =============================================
+   GENERATOR — Componente generador de QR
+   ============================================= */
+
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 480px;
+  gap: 16px;
+  background: var(--fondo-card);
+  border: 1px solid var(--borde-sutil);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--sombra-card);
+  transition: box-shadow var(--transition);
+}
+:host:hover {
+  box-shadow: var(--sombra-elevada);
+}
+
+/* ---------- Input de texto ---------- */
+input[type="text"] {
+  width: 100%;
+  font-family: var(--font-family);
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 14px 18px;
+  border: 2px solid var(--borde-sutil);
+  border-radius: var(--radius-md);
+  background: var(--fondo-suave);
+  color: var(--texto-principal);
+  outline: none;
+  transition:
+    border-color var(--transition),
+    box-shadow var(--transition);
+}
+input[type="text"]::placeholder {
+  color: var(--texto-secundario);
+  opacity: 0.6;
+}
+input[type="text"]:focus {
+  border-color: var(--azul-electrico);
+  box-shadow: 0 0 0 4px rgba(0, 124, 255, 0.12);
+  background: var(--fondo-principal);
+}
+
+/* ---------- QR Code generado ---------- */
+qrcode {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background: #fff;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--borde-sutil);
+  box-shadow: 0 2px 12px rgba(12, 54, 92, 0.06);
+}
+
+/* ---------- Link de descarga (Azul Eléctrico = enlace) ---------- */
+a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-family);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--azul-electrico);
+  padding: 10px 24px;
+  border: 2px solid var(--azul-electrico);
+  border-radius: var(--radius-xl);
+  background: transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    background var(--transition),
+    color var(--transition),
+    transform var(--transition),
+    box-shadow var(--transition);
+}
+a::before {
+  content: '⬇';
+  font-size: 1rem;
+}
+a:hover {
+  background: var(--azul-electrico);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 124, 255, 0.25);
+}
+a:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
