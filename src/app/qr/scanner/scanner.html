@@ -9,5 +9,15 @@
 <p>⌛ Loading...</p>
 }
 @else {
-<button (click)="action.isStart ? action.stop() : action.start()">{{action.isStart ? 'Stop' : 'Start'}}</button>
+<div class="controles">
+    <button (click)="action.isStart ? action.stop() : action.start()" class="btn-secundario">
+        {{action.isStart ? 'Stop' : 'Start'}}
+    </button>
+
+    @if (action.isStart) {
+    <button (click)="voltearCamara()" class="btn-voltear" title="Voltear cámara">
+        🔄 Voltear
+    </button>
+    }
+</div>
 }

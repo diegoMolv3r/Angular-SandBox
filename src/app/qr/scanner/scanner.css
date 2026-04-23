@@ -71,8 +71,17 @@ p {
   50%      { opacity: 0.4; }
 }
 
-/* ---------- Botón Start / Stop (secundario) ---------- */
-button {
+/* ---------- Contenedor de controles ---------- */
+.controles {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+}
+
+/* ---------- Botón Start / Stop (secundario — Azul Eléctrico) ---------- */
+.btn-secundario {
   font-family: var(--font-family);
   font-size: 0.95rem;
   font-weight: 600;
@@ -88,13 +97,42 @@ button {
     transform var(--transition),
     box-shadow var(--transition);
 }
-button:hover {
+.btn-secundario:hover {
   background: var(--azul-electrico);
   color: #fff;
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(0, 124, 255, 0.3);
 }
-button:active {
+.btn-secundario:active {
   transform: translateY(0);
   box-shadow: none;
 }
+
+/* ---------- Botón Voltear Cámara (acento naranja) ---------- */
+.btn-voltear {
+  font-family: var(--font-family);
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 12px 24px;
+  border: 2px solid var(--naranja-vivo);
+  border-radius: var(--radius-xl);
+  background: transparent;
+  color: var(--naranja-vivo);
+  cursor: pointer;
+  transition:
+    background var(--transition),
+    color var(--transition),
+    transform var(--transition),
+    box-shadow var(--transition);
+}
+.btn-voltear:hover {
+  background: var(--naranja-vivo);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(246, 139, 31, 0.3);
+}
+.btn-voltear:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
