@@ -1,0 +1,13 @@
+<ngx-scanner-qrcode #action="scanner" (event)="onScan($event)" style="width: 500px; height: 500px; ">
+</ngx-scanner-qrcode>
+
+<h1>
+    {{valorQR}}
+</h1>
+
+@if (action.isLoading) {
+<p>⌛ Loading...</p>
+}
+@else {
+<button (click)="action.isStart ? action.stop() : action.start()">{{action.isStart ? 'Stop' : 'Start'}}</button>
+}

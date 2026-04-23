@@ -1,0 +1,5 @@
+<input type="text" [(ngModel)]="myAngularxQrCode">
+
+<qrcode (qrCodeURL)="onChangeURL($event)" [qrdata]="myAngularxQrCode" [width]="256" [errorCorrectionLevel]="'H'">
+</qrcode>
+<a [href]="qrCodeDownloadLink" download="qrcode">Descargar</a>
