@@ -1,12 +1,11 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Generator } from "./qr/generator/generator";
-import { Scanner } from './qr/scanner/scanner';
-import { BotonInstalar } from "./boton-instalar/boton-instalar";
+import { RegisterForm } from "./reactive-forms/register-form/register-form";
+import { LoginForm } from "./reactive-forms/login-form/login-form";
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule, Generator, Scanner, BotonInstalar],
+  imports: [CommonModule, RegisterForm, LoginForm],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
