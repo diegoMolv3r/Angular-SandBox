@@ -1,10 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
-import { NgxScannerQrcodeComponent, ScannerQRCodeDevice, LOAD_WASM } from 'ngx-scanner-qrcode';
+import { NgxScannerQrcodeComponent, ScannerQRCodeDevice, LOAD_WASM, ScannerQRCodeResult } from 'ngx-scanner-qrcode';
 
 LOAD_WASM('assets/wasm/ngx-scanner-qrcode.wasm').subscribe();
 
 @Component({
   selector: 'app-scanner',
+  standalone: true, // Asegúrate de que coincida con tu versión de Angular
   imports: [NgxScannerQrcodeComponent],
   templateUrl: './scanner.html',
   styleUrl: './scanner.css',
@@ -15,32 +16,25 @@ export class Scanner {
 
   public valorQR: string | undefined = '';
 
-  /** Lista de cámaras disponibles */
   private dispositivos: ScannerQRCodeDevice[] = [];
+  private indiceActual = 0;
 
-  /** Índice de la cámara actualmente activa */
-  private indiceActual: number = 0;
-
-  public onScan(event: any): void {
+  /**
+   * Cambiamos 'any' por 'ScannerQRCodeResult[]'
+   */
+  public onScan(event: ScannerQRCodeResult[]): void {
     if (event && event.length > 0) {
-      // accedemos a la posición [0] del array y extraemos el valor
+      // Ahora TypeScript sabe que 'event[0]' tiene una propiedad 'value'
       const valorLimpio = event[0].value;
 
       this.valorQR = valorLimpio;
-
       console.log("El dato escaneado es:", this.valorQR);
 
-      // aca deberia llamar a un servicio HTTP para enviar 'valorLimpio' a Java Spring
-      // this.billeteraService.procesarTransaccion(valorLimpio).subscribe(...); por ejemplo
+      // Aquí podrías llamar a tu servicio de Java Spring
     }
   }
 
-  /**
-   * Voltea la cámara al siguiente dispositivo disponible.
-   * Se suscribe a devices$ la primera vez para obtener la lista.
-   */
   public voltearCamara(): void {
-    // Si aún no cargamos la lista, nos suscribimos al observable
     if (this.dispositivos.length === 0) {
       this.scanner.devices.subscribe((dispositivos: ScannerQRCodeDevice[]) => {
         this.dispositivos = dispositivos;
@@ -57,11 +51,9 @@ export class Scanner {
       return;
     }
 
-    // Avanzamos al siguiente índice (circular)
     this.indiceActual = (this.indiceActual + 1) % this.dispositivos.length;
     const siguienteDispositivo = this.dispositivos[this.indiceActual];
 
-    // playDevice acepta un deviceId
     this.scanner.playDevice(siguienteDispositivo.deviceId);
     console.log('Cámara cambiada a:', siguienteDispositivo.label || `Cámara ${this.indiceActual + 1}`);
   }

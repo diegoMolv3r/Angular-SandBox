@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -10,7 +10,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class LoginForm {
   loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  public readonly fb = Inject(FormBuilder);
+
+  constructor() {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],

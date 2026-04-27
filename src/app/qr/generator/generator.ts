@@ -10,7 +10,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './generator.css',
 })
 export class Generator {
-  public myAngularxQrCode: string = "";
+  public myAngularxQrCode = "";
   public qrCodeDownloadLink: SafeUrl = "";
 
   constructor() {

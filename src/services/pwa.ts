@@ -1,15 +1,24 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
+// Definimos la interfaz para el evento de instalación que el navegador no tiene por defecto
+interface BeforeInstallPromptEvent extends Event {
+  readonly platforms: string[];
+  readonly userChoice: Promise<{
+    outcome: 'accepted' | 'dismissed';
+    platform: string;
+  }>;
+  prompt(): Promise<void>;
+}
+
 @Injectable({
-  // Esto hace que el servicio sea un "Singleton" (se instancia una sola vez al abrir la app)
   providedIn: 'root'
 })
 export class PwaService {
 
-  private promptEvent: any;
+  // Reemplazamos 'any' por nuestra interfaz o null
+  private promptEvent: BeforeInstallPromptEvent | null = null;
 
-  // BehaviorSubject emitirá 'true' cuando la app esté lista para instalarse
   public puedeInstalarse$ = new BehaviorSubject<boolean>(false);
 
   constructor() {
@@ -17,30 +26,28 @@ export class PwaService {
   }
 
   private iniciarEscucha(): void {
-    // Escuchamos el evento global del navegador desde el segundo cero
+    // Tipamos el evento como BeforeInstallPromptEvent
     window.addEventListener('beforeinstallprompt', (evento: Event) => {
-      evento.preventDefault(); // Evita el banner nativo
-      this.promptEvent = evento; // Guardamos el evento
+      const pwaEvento = evento as BeforeInstallPromptEvent;
+      pwaEvento.preventDefault();
+      this.promptEvent = pwaEvento;
 
-      // Le avisamos a toda la app que ya se puede mostrar el botón
       this.puedeInstalarse$.next(true);
     });
   }
 
   public instalarApp(): void {
     if (this.promptEvent) {
-      // Lanzamos el cartel de instalación
       this.promptEvent.prompt();
 
-      // Esperamos la respuesta del usuario (alumno/padre)
-      this.promptEvent.userChoice.then((resultado: any) => {
+      // Aquí ya no usamos 'any', el resultado ya está tipado por la interfaz
+      this.promptEvent.userChoice.then((resultado) => {
         if (resultado.outcome === 'accepted') {
           console.log('Billetera instalada con éxito');
         } else {
           console.log('Instalación rechazada');
         }
 
-        // Limpiamos el evento y ocultamos el botón
         this.promptEvent = null;
         this.puedeInstalarse$.next(false);
       });
