@@ -4,7 +4,7 @@ import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-boton-instalar',
-  imports: [AsyncPipe],
+  imports: [],
   templateUrl: './boton-instalar.html',
   styleUrl: './boton-instalar.css',
 })
