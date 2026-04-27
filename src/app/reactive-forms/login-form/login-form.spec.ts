@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { LoginForm } from './login-form';
 
 describe('LoginForm', () => {
@@ -10,7 +9,7 @@ describe('LoginForm', () => {
     await TestBed.configureTestingModule({
       imports: [LoginForm]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(LoginForm);
     component = fixture.componentInstance;

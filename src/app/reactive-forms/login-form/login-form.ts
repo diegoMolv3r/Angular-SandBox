@@ -1,17 +1,16 @@
-import { Component, Inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-login-form',
-  imports: [],
+  imports: [ReactiveFormsModule],
   templateUrl: './login-form.html',
   styleUrl: './login-form.css',
 })
 export class LoginForm {
   loginForm: FormGroup;
 
-  public readonly fb = Inject(FormBuilder);
-
+  public readonly fb = inject(FormBuilder);
   constructor() {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
