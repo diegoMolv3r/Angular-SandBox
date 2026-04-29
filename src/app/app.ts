@@ -1,11 +1,10 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LoginForm } from "./reactive-forms/login-form/login-form";
-import { RegisterForm } from "./reactive-forms/register-form/register-form";
+import { CharactersList } from "./south-park-api/features/components/characters-list/characters-list";
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule, LoginForm, RegisterForm],
+  imports: [CommonModule, CharactersList],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
