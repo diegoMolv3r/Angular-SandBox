@@ -1,0 +1,102 @@
+<div class="cc-root">
+
+  <div class="view" [class.is-active]="view() === 'carousel'">
+    <div class="bg-layer"></div>
+    <div class="dim-layer"></div>
+
+    <div class="cv-layout">
+      <header class="cv-header">
+        <h1 class="cv-title">SELECCIONA TU<br>PERSONAJE</h1>
+        <div class="cv-accent-line"></div>
+      </header>
+
+      <div class="cv-stage" role="list">
+        <div class="cv-track" [style.transform]="trackTransform()">
+          @for (char of characters(); track char.id; let i = $index) {
+            <button class="cv-thumb"
+                    role="listitem"
+                    [class.is-sel]="i === selectedIndex()"
+                    (click)="openDetail(i)">
+              <div class="cv-thumb-img-wrap">
+                <img [src]="char.image" [alt]="char.name" class="cv-thumb-img" loading="lazy" />
+                @if (i === selectedIndex()) {
+                  <div class="cv-sel-ring"></div>
+                }
+              </div>
+              <span class="cv-thumb-name">{{ char.name }}</span>
+            </button>
+          }
+        </div>
+      </div>
+
+      <footer class="cv-footer">
+        <div class="cv-nav">
+          <button class="cv-circle-btn" (click)="carouselPrev()" aria-label="Previous">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15,18 9,12 15,6"/></svg>
+          </button>
+          <button class="cv-circle-btn" (click)="carouselNext()" aria-label="Next">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9,18 15,12 9,6"/></svg>
+          </button>
+        </div>
+        @if (selected()) {
+          <div class="cv-footer-info">
+            <p class="cv-footer-group">{{ selected()!.affiliation }}</p>
+            <p class="cv-footer-desc">{{ selected()!.race }} · {{ selected()!.gender }}</p>
+          </div>
+        }
+      </footer>
+    </div>
+
+  </div>
+
+  @if (selected()) {
+    <div class="view dv-root" [class.is-active]="view() === 'detail'">
+      <div class="bg-layer"></div>
+      <div class="dim-layer"></div>
+
+      <div class="dv-img-wrap">
+        <img [src]="selected()!.image" [alt]="selected()!.name" class="dv-img" />
+        <div class="dv-img-fade"></div>
+      </div>
+
+      <div class="dv-side-grad"></div>
+
+      <button class="dv-back" (click)="goBack()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15,18 9,12 15,6"/></svg>
+        BACK
+      </button>
+
+      <div class="dv-counter">
+        <span class="dv-counter-cur">{{ pad(selectedIndex() + 1) }}</span>
+        <span class="dv-counter-sep">/</span>
+        <span class="dv-counter-tot">{{ pad(characters().length) }}</span>
+      </div>
+
+      <div class="dv-panel">
+        <p class="dv-affiliation">{{ selected()!.affiliation }}</p>
+        <div class="dv-accent-line"></div>
+        <h1 class="dv-name">{{ selected()!.name }}</h1>
+
+        <div class="dv-stats">
+          <div class="dv-stat-label">BACKGROUND</div>
+          <div class="dv-stat-grid">
+            <span class="dv-sl">RACE</span>        <span class="dv-sv">{{ selected()!.race }}</span>
+            <span class="dv-sl">GENDER</span>      <span class="dv-sv">{{ selected()!.gender }}</span>
+            <span class="dv-sl">KI POWER</span>    <span class="dv-sv">{{ selected()!.ki }}</span>
+            <span class="dv-sl">MAX KI</span>       <span class="dv-sv">{{ selected()!.maxKi }}</span>
+          </div>
+        </div>
+
+        <p class="dv-desc">{{ selected()!.description }}</p>
+      </div>
+
+      <button class="dv-nav dv-nav--prev" (click)="prevDetail()" aria-label="Previous character">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15,18 9,12 15,6"/></svg>
+      </button>
+      <button class="dv-nav dv-nav--next" (click)="nextDetail()" aria-label="Next character">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9,18 15,12 9,6"/></svg>
+      </button>
+    </div>
+  }
+
+</div>

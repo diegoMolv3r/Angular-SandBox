@@ -1,4 +1,4 @@
-describe('App', () => {
+describe('DragonBallApiService', () => {
   it('should pass', () => {
     expect(true).toBe(true);
   });

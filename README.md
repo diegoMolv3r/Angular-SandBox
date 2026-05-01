@@ -1,59 +1,208 @@
-# SandBox
+# Angular SandBox — Dragon Ball
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.1.
+Proyecto Angular con arquitectura limpia que consume la [Dragon Ball API](https://dragonball-api.com/), construido como sandbox de aprendizaje y práctica.
 
-## Development server
-
-To start a local development server, run:
+## Desarrollo local
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Abrir `http://localhost:4200/` en el navegador.
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Comandos útiles
 
 ```bash
-ng generate component component-name
+ng test          # ejecutar tests unitarios (Karma)
+ng lint          # verificar reglas ESLint / Angular ESLint
+ng build         # compilar para producción
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+---
 
-```bash
-ng generate --help
+## ¿Qué se puede testear en Angular?
+
+Este proyecto está preparado para que practiques los principales tipos de tests que existen en Angular. Cada archivo `.spec.ts` corresponde a un elemento del proyecto.
+
+### 1. Tests de Componentes
+
+Son los más comunes. Verifican que el componente se renderiza correctamente, responde a `@Input()`, emite eventos y cambia de estado.
+
+**Ejemplo básico — `CharacterCard`:**
+
+```typescript
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { CharacterCard } from './character-card';
+import { CharacterModel } from '../../../../domain/models/character.model';
+
+describe('CharacterCard', () => {
+  let fixture: ComponentFixture<CharacterCard>;
+  let component: CharacterCard;
+
+  const mockCharacter: CharacterModel = {
+    id: '1', name: 'Goku', ki: '60.000.000', maxKi: '90 Septillion',
+    race: 'Saiyan', gender: 'Male', description: 'The main protagonist.',
+    image: 'https://example.com/goku.png', affiliation: 'Z Fighter', deletedAt: ''
+  };
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [CharacterCard],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(CharacterCard);
+    component = fixture.componentInstance;
+    component.character = mockCharacter;
+    fixture.detectChanges();
+  });
+
+  it('should render the character name', () => {
+    const h1 = fixture.nativeElement.querySelector('h1');
+    expect(h1.textContent).toContain('Goku');
+  });
+
+  it('should set the image src correctly', () => {
+    const img = fixture.nativeElement.querySelector('img');
+    expect(img.src).toContain('goku.png');
+  });
+});
 ```
 
-## Building
+---
 
-To build the project run:
+### 2. Tests de Servicios
 
-```bash
-ng build
+Verifican que el servicio hace las peticiones HTTP correctas y transforma los datos.  
+Se usa `HttpClientTestingModule` para simular las respuestas sin hacer peticiones reales.
+
+**Ejemplo — `DragonBallApiService`:**
+
+```typescript
+import { TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { DragonBallApiService } from './dragon-ball.api';
+
+describe('DragonBallApiService', () => {
+  let service: DragonBallApiService;
+  let httpMock: HttpTestingController;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [DragonBallApiService],
+    });
+    service = TestBed.inject(DragonBallApiService);
+    httpMock = TestBed.inject(HttpTestingController);
+  });
+
+  afterEach(() => httpMock.verify());
+
+  it('should fetch all characters', () => {
+    const mockResponse = { items: [{ id: '1', name: 'Goku' }] };
+
+    service.getAllCharacters().subscribe(res => {
+      expect(res).toEqual(mockResponse);
+    });
+
+    const req = httpMock.expectOne(r => r.url.includes('/characters'));
+    expect(req.request.method).toBe('GET');
+    req.flush(mockResponse);
+  });
+});
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+---
 
-## Running unit tests
+### 3. Tests de Directivas
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Verifican que la directiva modifica correctamente el DOM o el comportamiento del elemento al que se aplica.
 
-```bash
-ng test
+**Ejemplo — `TiltDirective`:**
+
+```typescript
+import { Component } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TiltDirective } from './tilt';
+
+@Component({
+  template: `<div appTilt [tiltConfig]="{}"></div>`,
+  imports: [TiltDirective],
+  standalone: true,
+})
+class HostComponent {}
+
+describe('TiltDirective', () => {
+  let fixture: ComponentFixture<HostComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [HostComponent],
+    }).compileComponents();
+    fixture = TestBed.createComponent(HostComponent);
+    fixture.detectChanges();
+  });
+
+  it('should apply to the host element', () => {
+    const el = fixture.nativeElement.querySelector('div');
+    expect(el).toBeTruthy();
+  });
+});
 ```
 
-## Running end-to-end tests
+---
 
-For end-to-end (e2e) testing, run:
+### 4. Tests de Signals y Estado
 
-```bash
-ng e2e
+Angular Signals permiten state reactivo. Puedes testear que los signals cambian de valor correctamente al llamar métodos del componente.
+
+**Ejemplo — `CharacterCarousel`:**
+
+```typescript
+it('should update selectedIndex when openDetail is called', () => {
+  component.characters.set([mockChar1, mockChar2]);
+  component.openDetail(1);
+  expect(component.selectedIndex()).toBe(1);
+  expect(component.view()).toBe('detail');
+});
+
+it('should go back to carousel on goBack', () => {
+  component.view.set('detail');
+  component.goBack();
+  expect(component.view()).toBe('carousel');
+});
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+---
 
-## Additional Resources
+### 5. Tests de Integración (CharacterList + CharacterCard)
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Verifican que dos componentes interactúan correctamente entre sí.
+
+```typescript
+it('should render one card per character', () => {
+  component.characters.set([mockChar1, mockChar2, mockChar3]);
+  fixture.detectChanges();
+  const cards = fixture.nativeElement.querySelectorAll('app-character-card');
+  expect(cards.length).toBe(3);
+});
+```
+
+---
+
+### Tabla resumen
+
+| Tipo de test       | Herramienta principal              | Archivo objetivo          |
+|--------------------|------------------------------------|---------------------------|
+| Componente         | `TestBed`, `ComponentFixture`      | `character-card.spec.ts`  |
+| Servicio HTTP      | `HttpClientTestingModule`          | `dragon-ball.api.spec.ts` |
+| Directiva          | `TestBed` con host component       | `tilt.spec.ts`            |
+| Signals / Estado   | `ComponentFixture` + assertions    | `character-carousel.spec.ts` |
+| Integración        | `TestBed` con múltiples componentes| `character-list.spec.ts`  |
+
+---
+
+## Recursos
+
+- [Angular Testing Guide](https://angular.dev/guide/testing)
+- [Dragon Ball API](https://dragonball-api.com/)
+- [Angular ESLint](https://github.com/angular-eslint/angular-eslint)

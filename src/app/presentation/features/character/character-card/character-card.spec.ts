@@ -1,4 +1,4 @@
-describe('App', () => {
+describe('CharacterCard', () => {
   it('should pass', () => {
     expect(true).toBe(true);
   });
