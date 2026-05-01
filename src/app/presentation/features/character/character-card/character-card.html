@@ -1,0 +1,21 @@
+<section class="character-section">
+  <div class="bg-overlay"></div>
+  <div class="character-image-wrap">
+    <img [src]="character.image" [alt]="character.name" class="character-img"/>
+  </div>
+
+  <div class="side-gradient"></div>
+
+  <div class="character-info">
+    <h1 class="character-name">{{ character.name }}</h1>
+    <p class="character-meta">
+      <span>{{ character.race }}</span>
+      <span class="sep">|</span>
+      <span>{{ character.gender }}</span>
+      <span class="sep">|</span>
+      <span class="affiliation">{{ character.affiliation }}</span>
+    </p>
+    <p class="character-desc">{{ character.description }}</p>
+  </div>
+
+</section>

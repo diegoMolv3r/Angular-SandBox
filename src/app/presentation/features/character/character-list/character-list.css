@@ -1,0 +1,29 @@
+:host {
+  display: block;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.card-list {
+  height: 100vh;
+  overflow-y: scroll;
+
+  /* CSS Snap como fallback para touch/trackpad */
+  scroll-snap-type: y mandatory;
+
+  /* SIN scroll-behavior: smooth → lo maneja el JS con easing propio */
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.card-list::-webkit-scrollbar {
+  display: none;
+}
+
+.card-list app-character-card {
+  display: block;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
