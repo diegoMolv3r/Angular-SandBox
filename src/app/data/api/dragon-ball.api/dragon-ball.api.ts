@@ -10,7 +10,7 @@ export class DragonBallApiService {
   private readonly httpCliente = inject(HttpClient);
 
   getAllCharacters() {
-    return this.httpCliente.get<{ items: CharacterModel[] }>('https://dragonball-api.com/api/characters');
+    return this.httpCliente.get<{ items: CharacterModel[] }>(`${this.baseUrl}/characters`);
   }
 
   getCharacterById(id: number) {

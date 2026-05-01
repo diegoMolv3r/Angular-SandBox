@@ -1,12 +1,11 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Navbar } from "./presentation/shared/components/navbar/navbar";
 import { CharacterCarousel } from "./presentation/features/character/character-carousel/character-carousel";
 import { CharacterList } from "./presentation/features/character/character-list/character-list";
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule, Navbar, CharacterCarousel, CharacterList],
+  imports: [CommonModule, CharacterCarousel, CharacterList],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
