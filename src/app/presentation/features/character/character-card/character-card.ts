@@ -1,10 +1,10 @@
 import { Component, Input, ElementRef, inject, AfterViewInit, OnDestroy } from '@angular/core';
 import { CharacterModel } from '../../../../domain/models/character.model';
-import { TiltDirective } from '../../../shared/directives/tilt';
 
 @Component({
   selector: 'app-character-card',
-  imports: [TiltDirective],
+  standalone: true,
+  imports: [],
   templateUrl: './character-card.html',
   styleUrl: './character-card.css',
 })

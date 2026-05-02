@@ -1,13 +1,11 @@
 import { Component, inject, signal, ElementRef, AfterViewInit, OnDestroy, OnInit } from '@angular/core';
 import { DragonBallApiService } from '../../../../data/api/dragon-ball.api/dragon-ball.api';
 import { CharacterModel } from '../../../../domain/models/character.model';
-import { TiltDirective } from '../../../shared/directives/tilt';
 import { CharacterCard } from '../character-card/character-card';
-
 
 @Component({
   selector: 'app-character-list',
-  imports: [CharacterCard, TiltDirective],
+  imports: [CharacterCard],
   templateUrl: './character-list.html',
   styleUrl: './character-list.css',
 })

@@ -1,15 +1,5 @@
 <div class="card-list">
-    @for (character of characters(); track character.id) {
-        <app-character-card [character]="character"></app-character-card>
-    }
+  @for (character of characters(); track character.id) {
+  <app-character-card [character]="character"></app-character-card>
+  }
 </div>
-
-
-
-<!-- @if (character()) {
-  <p>{{ character()?.name }}</p>
-  <img [src]="character()?.image" alt="{{ character()?.name }}" />
-}
-@else {
-  <p>Loading...</p>
-} -->
