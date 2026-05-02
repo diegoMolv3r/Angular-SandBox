@@ -12,7 +12,7 @@ jobs:
           node-version: '22'
           
       - name: Install dependencies
-        run: npm ci
+        run: npm install
         
       - name: Lint (Calidad de código)
         run: npm run lint
