@@ -68,4 +68,7 @@ describe('DragonBallApiService', () => {
     req.flush(mockCharacter);
   });
 
+  it('should intentionally fail to show a red error', () => {
+    expect(true).toBe(false);
+  });
 });
